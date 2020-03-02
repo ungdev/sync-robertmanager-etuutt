@@ -1,0 +1,21 @@
+{
+  "name": "robert-etuut-sync",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Thomas de Lachaux <thomas.delachaux@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "knex": "^0.20.10",
+    "lodash": "^4.17.15",
+    "mysql": "^2.18.1"
+  },
+  "scripts": {
+    "dev": "nodemon main",
+    "start": "node main"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
