@@ -114,8 +114,6 @@ const testConnection = async (instance) => {
           peopleToAdd.map((user) => user.login)
         );
 
-      console.log(ids);
-
       await client('taggables').insert(
         ids.map((row) => ({
           tag_id: process.env.TAG_ID,
