@@ -101,16 +101,46 @@ const testConnection = async (instance) => {
           first_name: user.firstName,
           last_name: user.lastName,
           nickname: user.login,
-          ...nullFields
+          ...nullFields,
+          created_at: client.fn.now(),
+          updated_at: client.fn.now()
+        }))
+      );
+
+      const ids = await client('persons')
+        .select('id')
+        .whereIn(
+          'nickname',
+          peopleToAdd.map((user) => user.login)
+        );
+
+      console.log(ids);
+
+      await client('taggables').insert(
+        ids.map((row) => ({
+          tag_id: process.env.TAG_ID,
+          taggable_type: 'Robert2\\API\\Models\\Person',
+          taggable_id: row.id
         }))
       );
     }
     if (peopleToRemove.length > 0) {
+      const ids = await client('persons')
+        .select('id')
+        .whereIn(
+          'nickname',
+          peopleToRemove.map((user) => user.login)
+        )
+        .map((row) => row.id);
       await client('persons')
         .whereIn(
           'nickname',
           peopleToRemove.map((user) => user.login)
         )
+        .del();
+      await client('taggables')
+        .where({ taggable_type: 'Robert2\\API\\Models\\Person' })
+        .whereIn('taggable_id', ids)
         .del();
     }
 
