@@ -34,7 +34,6 @@ const neutralLog = (msg) => {
 
 const nullFields = {
   user_id: null,
-  email: null,
   phone: null,
   street: null,
   postal_code: null,
@@ -85,7 +84,7 @@ const testConnection = async (instance) => {
 
   const sync = async () => {
     const serverRows = await server('etu_users')
-      .select('firstName', 'lastName', 'login')
+      .select('firstName', 'lastName', 'login', 'mail')
       .whereRaw('bdeMembershipEnd > NOW()');
 
     const clientRows = await client('persons')
@@ -101,6 +100,7 @@ const testConnection = async (instance) => {
           first_name: user.firstName,
           last_name: user.lastName,
           nickname: user.login,
+          email: user.mail,
           ...nullFields,
           created_at: client.fn.now(),
           updated_at: client.fn.now()
